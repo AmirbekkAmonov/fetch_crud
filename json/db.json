@@ -1,22 +1,16 @@
 {
   "users": [
     {
-      "id": 1738251847596,
+      "id": 1738290359515,
       "name": "Amirbek",
-      "email": "amonovamirbek53@gmail.com",
-      "age": "12"
-    },
-    {
-      "id": 1738256939155,
-      "name": "Amirbek",
-      "email": "amonovamirbek53@gmail.com",
+      "email": "amonovamir@gmail.com",
       "age": "123"
     },
     {
-      "id": 1738256989329,
+      "id": 1738290404755,
       "name": "Amirbek",
-      "email": "amonovamirbek1@gmail.com",
-      "age": "21345"
+      "email": "amonovamir@gmail.com",
+      "age": "21"
     }
   ]
 }
