@@ -3,12 +3,13 @@ const openModalBtn = document.getElementById('openModalBtn');
 const closeModalBtn = document.getElementById('closeModalBtn');
 
 const form = document.getElementById('form');
-const list = document.getElementById('tbody');
-const isLoading = document.getElementById('loading');
+const userTable = document.getElementById('tbody');
+const isLoading = document.getElementById('table-loading');
 let selectedId;
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    setLoading(true);
     const newUser = {
         id: Date.now(),
         name: form.name.value,
@@ -17,16 +18,16 @@ form.addEventListener('submit', async (e) => {
     };
 
     if (selectedId) {
-        const response = await fetch(`http://localhost:3000/users/${selectedId}`, {
+        const res = await fetch(`http://localhost:3000/users/${selectedId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newUser)
         });
-        if (response.ok) {
+        if (res.ok) {
             Toastify({
-                text: "Foydalanuvchi muovaffaqiyatli tahrildi",
+                text: "Foydalanuvchi muovaffaqiyatli tahrirlandi",
                 duration: 3000,
                 close: true,
                 gravity: "top",
@@ -36,6 +37,7 @@ form.addEventListener('submit', async (e) => {
             form.reset();
             const data = await getUsers();
             renderUsers(data);
+            setLoading(false);
         } else {
             Toastify({
                 text: "Xatolik yuz berdi",
@@ -45,16 +47,17 @@ form.addEventListener('submit', async (e) => {
                 position: "right",
                 background: "linear-gradient(to right, #00b09b, #96c93d)"
             }).showToast();
+            setLoading(false);
         }
     } else {
-        const response = await fetch('http://localhost:3000/users', {
+        const res = await fetch('http://localhost:3000/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newUser)
         });
-        if (response.ok) {
+        if (res.ok) {
             Toastify({
                 text: "Foydalanuvchi muovaffaqiyatli qo'shildi",
                 duration: 3000,
@@ -63,9 +66,10 @@ form.addEventListener('submit', async (e) => {
                 position: "right",
                 background: "linear-gradient(to right, #00b09b, #96c93d)"
             }).showToast();
-            form.reset();
+            form.reset();      
             const data = await getUsers();
             renderUsers(data);
+            setLoading(false);
         } else {
             Toastify({
                 text: "Xatolik yuz berdi",
@@ -75,21 +79,18 @@ form.addEventListener('submit', async (e) => {
                 position: "right",
                 background: "linear-gradient(to right, #00b09b, #96c93d)"
             }).showToast();
+            setLoading(false);
         }
 
     }
-
-
-
-
 });
 
 async function getUsers() {
     setLoading(true)
-    const response = await fetch('http://localhost:3000/users');
-    const data = await response.json();
+    const res = await fetch('http://localhost:3000/users');
+    const data = await res.json();
 
-    if (response.status !== 200 || response.ok !== true) {
+    if (res.status !== 200 || res.ok !== true) {
         throw new Error("Xatolik yuz berdi");
     }
 
@@ -107,8 +108,8 @@ getUsers()
     });
 
 function renderUsers(users) {
-    list.innerHTML = '';
-    if (users.length > 0) {
+    userTable.innerHTML = '';
+    if (users.length) {
         users.map((user) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -117,11 +118,11 @@ function renderUsers(users) {
             <td>${user.email}</td>
             <td>${user.age}</td>            
             <td>
-            <button class="edit" onclick='editUser(${JSON.stringify(user)})' ><span>Edit</span><img src="./icons/edit.png" alt=""></button>
-            <button class="delete" onclick='deleteUser(${user.id})'><span>Delete</span><img src="./icons/delete.png" alt=""></button>
+                <button class="edit" onclick='editUser(${JSON.stringify(user)})' ><span>Edit</span><img src="./icons/edit.png" alt=""></button>
+                <button class="delete" onclick='deleteUser(${user.id})'><span>Delete</span><img src="./icons/delete.png" alt=""></button>
             </td>
         `;
-            list.appendChild(tr);
+        userTable.appendChild(tr);
         });
     }
 }
@@ -149,6 +150,7 @@ async function deleteUser(id) {
                 position: "right",
                 background: "linear-gradient(to right, #00b09b, #96c93d)"
             }).showToast();
+            setLoading(false);
             const data = await getUsers();
             renderUsers(data);
         } else {
@@ -170,7 +172,7 @@ async function deleteUser(id) {
 
 
 function setLoading(loading) {
-    isLoading.style.display = loading ? 'block' : 'none';
+    isLoading.style.display = loading ? 'flex' : 'none';
 }
 
 openModalBtn.addEventListener('click', () => {

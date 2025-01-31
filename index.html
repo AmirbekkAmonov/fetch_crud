@@ -11,7 +11,7 @@
 
 <body>
     <div class="container">
-        <h1>Foydalanuvchilar ro‘yxati</h1>
+        <h1>Foydalanuvchilar ro'yxati</h1>
 
         <form id="form">
             <input type="hidden" id="id" name="id">
@@ -19,7 +19,7 @@
             <input type="text" id="name" placeholder="Ism" required>
             <input type="email" id="email" placeholder="Email" required>
             <input type="number" id="age" placeholder="Yosh" required min="0">
-            <button type="submit">Qo‘shish</button>
+            <button type="submit">Qo'shish</button>
         </form>
 
         <button id="openModalBtn">Foydalanuvchi qo'shish</button>
@@ -28,23 +28,23 @@
             <div class="modal-content">
                 <h2>Yangi foydalanuvchi qo'shish / Tahrirlash</h2>
                 <form id="form">
-                    <input type="hidden" id="userId"> 
+                    <input type="hidden" id="userId">
                     <input type="text" id="name" placeholder="Ism" required>
                     <input type="email" id="email" placeholder="Email" required>
                     <input type="number" id="age" placeholder="Yosh" required min="0">
                     <button type="submit">Qo'shish</button>
                 </form>
-                <span class="close-btn" id="closeModalBtn">&times;</span>
+                <span class="close-btn" id="closeModalBtn">&times;</span> 
             </div>
         </div>
         
-
         <div class="line"></div>
-        <div class="loading" id="loading" style="display: none;">
-            <div class="lds-dual-ring"></div>
-        </div>
+
         <div class="table-container">
             <table>
+                <div class="table-loading" id="table-loading" style="display: none;">
+                    <div class="lds-dual-ring"></div>
+                </div>
                 <thead>
                     <tr>
                         <th>No</th>
@@ -55,7 +55,6 @@
                     </tr>
                 </thead>
                 <tbody id="tbody">
-                    
                 </tbody>
             </table>
         </div>
